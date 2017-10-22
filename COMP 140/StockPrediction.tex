@@ -1,0 +1,183 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+
+\newcommand{\hmwkTitle}{Stock Prediction (Writeup)}
+\newcommand{\hmwkDueDate}{October 11, 2017}
+\newcommand{\hmwkClass}{COMP 140}
+\newcommand{\hmwkClassInstructor}{Rixner}
+\newcommand{\hmwkAuthorName}{\textbf{Joel Abraham}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 8:00 PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+%
+% Various Helper Commands
+%
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+\section{Recipe}
+    
+    The inputs of the markov\_chain() function are a sequence of numbers assigned to the variable $data$ (corresponding to the bins 0-3) and a number greater than or equal to $1$ assigned to the variable $order$, representing the order of the desired markov chain. The function outputs an $n^{th}$ order markov chain, where $n = order$ represented as a mapping between $n$-tuples (corresponding to the previous $n$ states) and a mapping between integers (representing a certain possible next state) and real numbers between 0 and 1 (representing the probability of reaching the corresponding state). ***Note that the notation $f(x)$ will be used throughout this assignment to refer to the value that $x$ maps to under the mapping $f$.***
+    %The function first assigns to the variable $model$ an empty mapping between $n$-tuples and functions mapping integers to real-valued probabilities (as described above for the output). Then, an empty sequence of integers is assigned to the variable $arr$.
+    
+    \begin{algorithm}
+    \begin{algorithmic}[1]
+        \Procedure{markov\_chain}{$data$, $order$}
+        \State $\textit{model} \gets \text{empty mapping}$
+        \State $\textit{arr} \gets \text{empty sequence of integers}$
+        \State $\textit{index} \gets -1$
+        \ForAll{$\textit{element} \in \textit{data}$}
+            \State $\textit{index} \gets \textit{index}+1$
+            \If{$\textit{index} < \textit{order}$}
+                \State $\textit{arr} \gets arr + \textit{element}$
+            \Else
+                \State $\textit{tup} \gets \text{tuple with elements of } \textit{arr}$
+                \If{$\textit{tup} \text{ is not in the domain of } \textit{model}$}
+                    \State $\textit{model(tup)} \gets \text{empty mapping between integers and real-valued probabilities}$
+                \EndIf
+                \If{$\textit{tup} \text{ is not in the domain of } \textit{model}$}
+                    \State $\textit{model(tup)(element)} \gets 0$
+                \EndIf
+                \State $\textit{model(tup)(element)} \gets \textit{model(tup)(element) + 1}$
+                \State $\textit{arr} \gets arr + element$
+                \State $\text{remove first element of } \textit{arr}$
+            \EndIf
+        \EndFor
+        
+        \ForAll{$\text{n-tuples } \textit{entry} \text{ in the domain of } \textit{model}$}
+            \State $\textit{total} \gets 0.0$
+            \ForAll{$\text{integers } state \text{ in the domain of } \textit{model(entry)}$}
+                \State $\textit{total} \gets \textit{total} + \textit{model(entry)(state)}$
+            \EndFor
+            \ForAll{$\text{integers } state \text{ in the domain of } \textit{model(entry)}$}
+                \State $\textit{model(entry)(state)} \gets \textit{model(entry)(state)}/\textit{total}$
+            \EndFor
+        \EndFor\\
+        \hspace*{4mm} \Return $\textit{model}$
+        \EndProcedure
+    \end{algorithmic}
+    \end{algorithm}
+    
+    The predict function takes the following as inputs: markov model, $model$, represented as a mapping between tuples and mappings between integer valued states and real-valued probabilities; a sequence of integers, $prev$, representing the previous states with length $n$ where $n$ is the order of the markov model, $model$; an integer, $num$, representing the number of future states to predict. The predict function outputs a sequence of integers of length $num$, representing the predicted states for the next $num$ days.
+    \begin{algorithm}
+    \begin{algorithmic}[1]
+        \Procedure{predict}{$model$, $last$, $num$}
+        \State $\textit{prev} \gets \text{copy of } \textit{last}$
+        \State $\textit{predicted} \gets \text{empty sequence of integers}$
+        \State $\textit{index} \gets -1$
+        \While{$\text{index} < \textit{num}$}
+            \State $\textit{next} \gets 0$
+            \State $\textit{tup} \gets \text{tuple with elements of last}$
+            \If{$\textit{tup} \text{ is not in the domain of } \textit{model}$}
+                \State $\textit{next} \gets \text{random integer between 0 and 3, inclusive}$
+            \Else
+                \State $\textit{entry} \gets model(tup)$
+                \State $\textit{total} \gets 0$
+                \State $\textit{random\_number} \gets \text{random real value between 0 and 1}$
+                \ForAll{$\text{integers } state \text{ in the domain of } entry$}
+                    \State $\textit{total} \gets total + entry(key)$
+                    \If{$random\_number <= total$}
+                        \State $\textit{next} \gets key$\\
+                        \hspace*{25mm} \textbf{break}
+                    \EndIf
+                \EndFor
+            \EndIf
+            \State $\textit{predicted} \gets predicted + next$
+            \State $\textit{prev} \gets prev + next$
+            \State $\text{remove first element of } prev$
+        \EndWhile \\
+        \hspace*{4mm} \Return $\textit{predicted}$
+        \EndProcedure
+    \end{algorithmic}
+    \end{algorithm}
+   
+\section{Discussion}
+
+Discuss the results of the experiments you ran in 4.B (be sure to include the results). In particular, discuss the following questions:
+
+\begin{enumerate}
+    \item What is the order of the model that works best for each stock/index? If the orders are not the same, discuss why that might be the case.
+    
+    \item Which stock/index can you predict with the lowest error? Based on the plots of the day-to-day change in stocks and the histogram of bins, can you guess why that stock/index is easiest to predict?
+    
+    \item Given that we have divided the day-to-day price change into 4 bins, how many possible states are there in an $n^{th}$ order Markov chain for predicting the change in stock price?
+    
+    \item The training data we gave you covers two years of data, with 502 data points per stock/index. Is that enough data that it is possible to see all possible states in an $n^{th}$ order Markov chain? What are the constraints on $n$? How do you think it would affect the accuracy of the model if there were not enough data?
+\end{enumerate}
+   
+\textbf{Solution}
+
+\begin{enumerate}
+    \item The model predicts with the least error for stock FSLR with order 5, for stock GOOG with order 1, and for stock DJIA with order 3. This is likely since highly volatile stocks require higher order markov models in order to predict accurately, as low order markov models would be skewed by noise; only as order increases does the impact of noise decrease. Thus, since FSLR is more volatile than DJIA which is more volatile than GOOG (based on daily change and variations in the bin histogram), it is logical that the model for FSLR required a higher order than that for DJIA which required a higher order than that for GOOG. 
+    
+    \item GOOG is predicted with the lowest error, since it is the most stable of the three stocks given. GOOG has the most homogenous bin histogram as well as the least volatile daily change. As such, since stability implies predictability, a given state for GOOG is likely to be similar to the previous state, which is easily predictable by a markov model. 
+    
+    \item Since the model is of order $n$, a state is represented by a tuple with $n$ values, where each value has 4 possibilities. Thus, there are $4^n$ possible states. 
+    
+    \item THere is theoretically enough data to see all possible states in a $3^{rd}$ order Markov chain, but not for a $5^{th}$ order markov chain. Thus, for $n \leq \frac{\log{502}}{\log{4}} \approx 4$ we can see all possible states. Without enough data, the model would be inaccurate since it would predict certain next states with high certainty based off of insufficient empirical data, leading to false confidence. 
+\end{enumerate}
+
+\end{document}

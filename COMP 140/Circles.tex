@@ -1,0 +1,160 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Recipe \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Circles (Writeup)}
+\newcommand{\hmwkDueDate}{September 7, 2017}
+\newcommand{\hmwkClass}{COMP 140}
+\newcommand{\hmwkClassInstructor}{Rixner}
+\newcommand{\hmwkAuthorName}{\textbf{Joel Abraham}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 1:00 PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+\section{Recipe}
+   Describe the recipe for computing the center and radius of a circle given three points. Keep in mind the five functions you wrote in part 3. You must refer (by name) to these functions here!
+   \\
+   
+   \textbf{Solution}
+    
+    Three points ($A$, $B$, and $C$) are passed as an input to the make\_circle() function -- the main function which returns the center and radius of the unique circle formed by these three points. This function first calculates the slopes of lines $AB$ and $AC$ via calls to the slope() function. The slope() function takes two points, $P_1 = (x_0, y_0)$ and $P_2 = (x_1, y_1)$ as an input and returns the slope of the line passing through the two points, using the slope formula, given by $m = \frac{y_1 - y_0}{x_1 - x_0}$. The midpoints $M_1$ of $AB$ and $M_2$ of $AC$ are calculated via calls to the midpoint() function. The midpoint() function takes two points, $P_1 = (x_0, y_0)$ and $P_2 = (x_1, y_1)$, as an input and returns the midpoint of the line formed by the two points (represented as a 2-tuple) using the midpoint formula, given by $M = (\frac{x_0 + x_1}{2}, \frac{y_0 + y_1}{2})$. The center is determined to be the intersection of the perpendicular bisectors of $AB$ and $AC$, passing through $M_1$ and $M_2$, respectively. Thus, the slopes of the perpendicular bisectors are calculated via calls to the perp() function. The perp() function takes the slope of a line, $m$ as an input and calculates the slope of a perpendicular line using the following equation: $m_p = -\frac{1}{m}$. Now, the perpendicular bisectors are uniquely defined by the midpoints of $AB$ and $AC$ coupled with their respective perpendicular slopes. The center is now computed via a call to the intersect() function, which takes two lines that intersect exactly once as an input and returns their unique point of intersection as a 2-tuple. The inputs to the intersect() function are two lines, each formed by a point and a slope: $P_1 = (x_0, y_0)$ with slope $m_1$ and $P_2 = (x_1, y_1)$ with slope $m_2$. The x-coordinate and y-coordinate of intersection are determined by:
+    \[x_{int} = \frac{m_1x_0 - m_2x_1 + y_1 - y_0}{m_1 - m_2}, \hspace{.2cm} y_{int} = m1(x_{int} - x_0) + y_0.\] Finally, the radius is calculated by determining the distance from $O$ to $A$, using a call to the distance() function, which takes two points, $P_1 = (x_0, y_0)$ and $P_2 = (x_1, y_1)$ as an input and returns the distance between the two points based on the distance formula, given by $d(P_1, P_2) = \sqrt{(x_1- x_0)^2 + (y_1 - y_0)^2}$. The make\_circle() function then returns the center and radius of the resulting circle as a 3-tuple, consisting of the center's x-coordinate, y-coordinate, and the circle's radius.
+   
+\section{Discussion}
+ The strategy we followed to calculate the center and radius of the circle is not the most efficient. We used a strategy that you would use on paper in order to introduce you to Python and computational problem solving. However, there are better ways for a computer to solve this problem. Describe (in English) a method for doing so. Your description can be brief (2 or 3 sentences), just give the idea, you do not need to work out all of the math and Python.
+   \\
+   
+   \textbf{Solution}
+    
+    One solution would be to use the equation of a circle. Since any circle can be represented by $Ax + By + C = 0$, where $C = x^2 + y^2 + D$ for real numbers $A, B,$ and $D$, we can create a system of equations by plugging in points. For each of the three given points, we get three distinct equations. These can be combined to solve the system of equations. Now, using a 3 x 3 matrix, we can solve this systems of equations by multipying both sides by the inverse of the left hand size matrix to obtain values for A, B, and C. Then, plugging the values back into the general equation and completing the square yields the equation of a circle that reveals the circle's center and radius. 
+
+\end{document}
