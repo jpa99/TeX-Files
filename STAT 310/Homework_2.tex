@@ -1,0 +1,297 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{September 28, 2017}
+\newcommand{\hmwkClass}{STAT 310}
+\newcommand{\hmwkClassInstructor}{Guerra}
+\newcommand{\hmwkAuthorName}{\textbf{Joel Abraham}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 1:00 PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+\begin{homeworkProblem}
+    RT 2.2.18. In a series of seven games, the first team to win four games wins the series. If the teams are evenly matched, what is the probability that the team that wins the first game will win the series?  \\
+
+    \textbf{Solution} \\
+    Since the teams are evenly matched, we can assume a probability of $\frac{1}{2}$ that a certain team wins a certain game. If the series ends in 4 games, then the team that won the first game must win the next 3 games, which will occur with probability $(\frac{1}{2})^3 = \frac{1}{8}$. If the series ends in 5 games, then the team that wins the first game must win 3 out of the next 4 games; this occurs with probability $\binom{3}{1}(\frac{1}{2})(\frac{1}{2})^3 = (\frac{1}{2})^4 = \frac{1}{16}$ since they must win 3 games and lose 1, and there are 3 possible games they can lose because the series must end on a win. If the series ends in 6 games, then the team that wins the first game must with 3 out of the next 5 games. This occurs with probability $\binom{4}{2}(\frac{1}{2})^2(\frac{1}{2})^3 = 6(\frac{1}{2})^5 = \frac{3}{16}$ since they must win 3 games and lose 2, and there are 4 possible games they can lose because the series must end on a win. If the series ends in 7 games, then the team that wins the first game must with 3 out of the next 6 games. This occurs with probability $\binom{5}{3}(\frac{1}{2})^3(\frac{1}{2})^3 = 10(\frac{1}{2})^6 = \frac{5}{16}$ since they must win 3 games and lose 3, and there are 5 possible games they can lose because the series must end on a win. Thus the probability that the team that wins the first game wins the series is $P = \frac{1}{8} + \frac{1}{16} + \frac{3}{16} + \frac{5}{16} = \frac{11}{16}$.
+    
+
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+    Addition Rule for three events
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item Let $A$, $B$, $C$ be three events from a sample space, $S$. Prove the Addition Rule for three events:
+    \[P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) - P(A \cap B \cap C)\]
+
+    \item Three fair dice will be rolled. Use the Addition Rule to find the chance that at least one ace will be rolled?
+    
+    \item One card will be dealt from a standard 52-card deck. Find the chance that the card will be an A or a heart or a 7.
+    \end{enumerate}
+    
+    
+    \textbf{Solution}
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item By associativity, we have $P(A \cup B \cup C) = P(A \cup (B \cup C))$. Then we can apply the addition rule for two events multiple times, while also exploiting the distributive property of the set operations, yielding:
+    
+    \[\begin{split}
+                P(A \cup (B \cup C)) &= P(A) + P(B \cup C) - P(A \cap (B \cup C))
+                \\
+                &= P(A) + P(B) + P(C) - P(B \cap C) - P(A \cap (B \cup C))
+                \\
+                &= P(A) + P(B) + P(C) - P(B \cap C) - P((A \cap B) \cup (A \cap C))
+                \\
+                &= P(A) + P(B) + P(C) - P(B \cap C) - P(A \cap B) - (P(A \cap C) + P((A \cap B) \cap (A \cap C))
+                \\
+                &= P(A) + P(B) + P(C) - P(B \cap C) - P(A \cap B) - P(A \cap C) + P(A \cap B \cap C)
+        \end{split}\]
+        
+    \item Let A, B, and C refer to the events that the first, second, and third die return an Ace, respectively. Then, note that for a die, the probability of rolling an Ace is $\frac{1}{6}$. Thus, we want to find $P(A \cup B \cup C)$, the probability of at least one die rolling an Ace. $P(A \cup B \cup C) = P(A) + P(B) + P(C) - [P(B \cap C) + P(A \cap B) + P(A \cap C)] + P(A \cap B \cap C)$. Now, we know that $P(A) = P(B) = P(C) = \frac{1}{6}$, and since the events are independent, we have $P(B \cap C) = P(A \cap B) = P(A \cap C) = P(B)P(C) = P(A)P(B) = P(A)P(C) = (\frac{1}{6})^2 = \frac{1}{36}$. Thus, $P(B \cap C) + P(A \cap B) + P(A \cap C) = \frac{1}{12}$. Similarly, due to independence, $P(A \cap B \cap C) = P(A)P(B)P(C) = (\frac{1}{6})^3 = \frac{1}{216}$. Thus, we have $P(rolling\_at\_least\_one\_ace) = \frac{1}{2} - \frac{1}{12} + \frac{1}{216} = \frac{91}{216}$.
+    
+    \item We use the addition rule for 3 elements where event A refers to drawing an Ace, event B refers to drawing a 7, and event C refers to drawing a heart. Then, $P(A \cup B \cup C) = P(A) + P(B) + P(C) - [P(B \cap C) + P(A \cap B) + P(A \cap C)] + P(A \cap B \cap C)$. $P(A) = \frac{4}{52} = \frac{1}{13}$ since there are 4 Aces in a deck, $P(B) = \frac{4}{52} = \frac{1}{13}$ since there are 4 seven cards in a deck, and $P(C) = \frac{13}{52} = \frac{1}{4}$ since there are 13 hearts in a deck. $P(B \cap C) = \frac{1}{52}$ since there is exactly one card that is both a 7 and a heart. $P(A \cap C) = \frac{1}{52}$ since there is exactly one card that is both an A and a heart. $P(A \cap B) = 0$ since a card cannot be both an A and 7. Thus, $P(B \cap C) + P(A \cap B) + P(A \cap C) = \frac{1}{26}$. Finally, since $P(A \cap B) = 0$, it is clear that $P(A \cap B \cap C) = 0$ since no card can be both an A of hearts and a 7 or hearts. Thus, $P = \frac{1}{13} + \frac{1}{13} + \frac{1}{4} - \frac{1}{26} = \frac{19}{52}$.
+    \end{enumerate}
+
+\end{homeworkProblem}
+
+
+
+\begin{homeworkProblem}
+    Lottos
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item 2.3.20. In Florida Lotto, an urn contains balls numbered 1 to 53. From this urn, a machine chooses 6 balls at random and without replacement. The order in which the balls are selected does not matter. For a \$1 bet, a player chooses six numbers. If all six numbers match with the six numbers chosen by the urn, the player wins the jackpot. What is the probability of winning the Florida Lotto jackpot?
+        
+        \item If you play the Florida Lotto everyday for one year (365 days), what is the chance that you will win at least once?
+        
+        \item Find the probability of winning the jackpot in the Texas Mega Millions game. To win the jackpot you must select the 5 winning numbers (from 1-75) AND also match the selected Mega Ball number (one number from 1-15). Compare to the Florida Lotto.
+        
+    \end{enumerate}
+    
+    \textbf{Solution}
+    
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item Assume the person fixes a set of 6 numbers; we now want to find the probability that the urn generates the same set of numbers. This is equal to the number of ways to choose 6 balls from 53. Given 53 balls, there are $\binom{53}{6} = \frac{53!}{(6!)(47!)}$  ways to choose 6 balls from 53, since order doesn't matter. Only one of these ways will match the player's choice. Thus, the player has a $\frac{1}{\binom{53}{6}} = \frac{(6!)(47!)}{53!} = 4.356e-8$ probability of choosing correctly.
+    
+    \item Since winning on each day is independent, The probability of winning on day 1 or day 2 or ... or day 365 is equal to the probability of winning on day 1 plus the probability of wining on day 2 plus ... plus the probability of winning on day 365. As such, since each day has the same probability of winning, the probability of winning at least once during a year is given by $\frac{365(6!)(47!)}{53!} = 1.589e-5$.
+    
+    \item There are $\binom{75}{5} = \frac{75!}{(5!)(70!)}$ ways to select the 5 winning number and 15 ways to choose a Mega Ball numbers. Since both must match in order to win, we multiply the probabilities (since they are independent). Since the player makes only once choice, this gives probability of winning the Mega Millions $P = \frac{1}{15\binom{75}{5}} = \frac{(5!)(70!)}{15*75!} = 3.863e-9$. This is lower than the probability of winning the Florida lotto since there are more balls and there is an additional Mega Ball that must be correct in order to win.
+    
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    1000 tickets are sold in a raffle. Five prizes are to be awarded to five chosen tickets (selected randomly and without replacement). Suppose you bought 10 of the 1000 tickets.
+
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item Find the chance that you will win one of the 5 prizes.
+
+    \item How many of the 1000 tickets would you have to buy so that your chance of winning a prize is at least 20\%?
+    
+    \end{enumerate}
+    
+    \textbf{Solution}
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item The probability that you win at least one of the prizes is $P = 1 - P'$ where $P'$ is the probability that you win no prizes. The probability that you do not win the first prize is the probability that one of the 990 people win it. Then, since the prizes are awarded without replacement, the probability that you don't win the $k^{th}$ prize given that you haven't won any of the first $k-1$ prizes is $\frac{990 - k + 1}{1000}$. Thus, $P' = (\frac{990}{1000})(\frac{989}{1000})(\frac{988}{1000})(\frac{987}{1000})(\frac{986}{1000}) = \frac{990!}{985!*1000^5} \approx 0.94142$. Thus, $P = 1 - P' \approx 0.0586$.
+    
+    \item Using the above logic, for $n$ tickets bought, the probability of winning at least one prize $P = 1 - \frac{(1000 - n)!}{(995 - n)!*1000^5} \geq 0.2 \implies \frac{(1000 - n)!}{(995 - n)!*1000^5} \leq 0.8 \implies (1000 - n)(999 - n)(998 - n)(997 - n)(996 - n) \leq 8e+14$. Thus, we're trying to find the product of 5 consecutive integers which is maximum and also less than or equal to $8e+14$. A simple script in R gives us $42$ tickets as the threshold one should buy at which one has a greater than or equal to 20\% of winning a prize.
+    
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Diagnostic Test Results The prevalence of a disease in a certain large population is p. A diagnostic test for the disease is available. Let D denote the presence of the disease and $D $̄ the absence. Let + denote a positive test result for the disease and − a negative result. Accuracy of the diagnostic test is denoted by $P(+|D)$ (chance the test result is positive given the patient has D) and $P(−|D ̄$) (chance the test result is negative given the patient does not have D). For various configurations of p and test accuracy, find $P(D|+)$, the chance the patient has D given a positive test result.\\
+    
+    \textbf{Solution}\\
+    
+    In the general case, we have $P(+|D)P(D) = P(D|+)P(+) \implies P(D|+) = \frac{P(+|D)P(D)}{P(+)}$. We are given $P(+|D)$ and $P(D) = p$, and we can calculate $P(+) = P(D)P(+|D) + (1-P(D))(1-P(-|\bar{D}))$. Thus, \[P(D|+) = \frac{p*P(+|D)}{p*P(+|D) + (1-p)(1-P(-|\bar{D}))}\].
+    
+    \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{4}{|c|}{Diagnostic Test Results} \\
+ \hline
+$p$ & $P(+|D)$ & $P(-|\bar{D})$ & $P(D|+)$\\
+ \hline
+.10 & .98 & .98 & 0.84482\\
+.10 & .98 & .80 & 0.35251\\
+.10 & .80 & .98 & 0.81632\\
+.05 & .98 & .98 & 0.72058\\
+.05 & .98 & .80 & 0.20502\\
+.05 & .80 & .98 & 0.67796\\
+.001 & .98 & .98 & 0.04675\\
+.001 & .98 & .80 & 0.00488\\
+.001 & .80 & .98 & 0.03849\\
+ \hline
+\end{tabular}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Problem 2.54.\\
+    
+    \textbf{Solution}\\
+    
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item This question asks us to find the amount of time spent waiting given that the queue has 2 trucks currently in line. We can use conditional probability, but since the events are mutually exclusive -- size of line and time spend -- the P(B) cancels out and we're left with P(A). Thus, since the probabilities are equal, options are 2/2, 2/3, 3/2, 3/3. Of these 4 cases, only one is strictly less than 5 minutes, thus the wait time is less than 5 minutes with probability $\frac{1}{4}$.
+    
+    \item First, note that if only one truck is in the queue, the wait time is guaranteed to be under or equal to 3 minutes, and if 3 or more cards are in the queue, then the wait time is guaranteed to be above 5 minutes. The probability of waiting for 5 minutes is the probility of having only zero or one trucks in the queue or 0.25 times the probability that two trucks are in the queue. 0 or 1 truck is in the queue with probability $0.3$, and two trucks are in the queue with probability $0.3$ as well. Thus, the probability of having a wait time under 5 minutes is given by $P = 0.3 + 0.25*0.3 \implies P = 0.375$.
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Problem 2.58.\\
+    
+    \textbf{Solution}\\
+    \begin{enumerate}[label=(\alph*)]
+    
+    \item The probabiltiy that a well-constructed building gets damaged in the next earthquake is the probability that the next earthquake is medium or high intensity, multiplied by the probabilities that the building gets destroyed in a medium and high intensity earthquake, respectively. We use conditional probability to yield, $P = P(D|M)P(M) + P(D|H)P(H) = 0.05*(\frac{4}{20}) + 0.2*(\frac{1}{20}) = 0.02$.
+    
+    \item A well constructed building will be damaged with probability $0.02$, thus is $80\%$ of buildings are well-constructed, $1.6\%$ of buildings will be destroyed. The probability that a poorly constructed building will be destroyed is $P = P(D|L)P(L) + P(D|M)P(M) + P(D|H)P(H) = 0.1*\frac{3}{4} + 0.5*\frac{1}{5} + 0.9*\frac{1}{20} = 0.22$. Thus, since $20\%$ of buildings are poorly constructed, an estimated $4.4\%$ of buildings will be destroyed. Thus, a net total of $6\%$ of buildings will be destroyed in the next earthquake.
+    
+    \item The probability that a building is poorly constructed given that it's damaged is the probability that a building is damaged given that it's poorly constructed times the probability that it's poorly constructed divided by the probability that it's damaged. Thus, $P(D|P) = \frac{P(P|D)P(D)}{P(P)} = \frac{0.7333*0.06}{0.2} = 0.22$
+    
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\end{document}

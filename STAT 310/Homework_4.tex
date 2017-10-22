@@ -1,0 +1,234 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#4}
+\newcommand{\hmwkDueDate}{October 17, 2017}
+\newcommand{\hmwkClass}{STAT 310}
+\newcommand{\hmwkClassInstructor}{Guerra}
+\newcommand{\hmwkAuthorName}{\textbf{Joel Abraham}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 1:00 PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+\newcommand{\liminfty}{\lim\limits_{y\to\infty}}
+
+\newcommand{\limninf}{\lim\limits_{y\to-\infty}}
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+\begin{homeworkProblem}
+    RT 2.6.3. The cdf of a discrete random variable Y is given by the following: $F(-1) = 0.1, F(0) = 0.15, F(2) = 0.4, F(5) = 0.8, F(6) = 1$.
+    \begin{enumerate}[label=(\alph*)]
+        \item Find $\E[Y], \E[Y^2], \E[Y^3],$ and $\Var(Y)$
+        \item Find the mgf of $Y$.
+    \end{enumerate}
+    
+    \textbf{Solution}
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item f(-1) = 0.1, f(0) = 0.05, f(2) = 0.25, f(5) = 0.4, f(6) = 0.2. Thus, $\mu = \E[X] = (-1)(0.1) + 2(0.25) + 5(0.4) + 6(0.2) = 3.6$, $\E[X^2] = (-1)^2(0.1) + 2^2(0.25) + 5^2(0.4) + 6^2(0.2) = 18.3$, $\E[X^3] = (-1)^3(0.1) + 2^3(0.25) + 5^3(0.4) + 6^3(0.2) = 95.1$, and $\Var(x) = \E[X^2] - \mu^2 = 18.3 - 3.6^2 = 5.34$.
+        
+        \item $M_x(t) = \sum e^{tx}p(x) = 0.1e^{-t} + 0.05e^{0} + 0.25e^{2t} + 0.4e^{5t} + 0.2e^{6t} = 
+        0.05 + 0.1e^{-t} + 0.25e^{2t} + 0.4e^{5t} + 0.2e^{6t}$. Then, $M_x(t)^{(1)} = \frac{6e^{6t}}{5} + \frac{2e^{5t}}{5} + \frac{e^{2t}}{2} - \frac{e^{-t}}{10}$ and $M_x(0)^{(1)} = 3.6$. $M_x(t)^{(2)} = \frac{72e^{6t}}{10} + 10e^{5t} + e^{2t} + \frac{e^{-t}}{10}$ and $M_x(0)^{(2)} = 18.3$. $M_x(t)^{(3)} = \frac{432e^{6t}}{10} + 50e^{5t} + 2e^{2t} - \frac{e^{-t}}{10}$ and $M_x(0)^{(3)} = 95.1$. Thus, $\Var(x) = \E[X^2] - \E[X]^2 = M_x(t)^{(2)} - (M_x(t)^{(1)})^2 = 18.3 - 3.6^2 = 5.34$
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    RT 2.6.15. Let $X$ be a random variable with geometric pdf
+    \[f(x) = p(1-p)^{x-1}, x = 1, 2, 3,...\]
+    \begin{enumerate}[label=(\alph*)]
+        \item Find $\E[X]$ and $\Var(X)$
+        \item Show that $M_x(t) = \frac{pe^t}{1-(1-p)e^t}, t < -\ln(1-p)$
+    \end{enumerate}
+    
+    \textbf{Solution}
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        \[\E[X] = \sum_{x=1}^\infty xf(x) = \sum_{x=1}^\infty xp(1-p)^{x-1} = p\sum_{x=1}^\infty x(1-p)^{x-1}.\]
+        Since \[\sum_{x=1}^\infty x(1-p)^{x-1} = \sum_{x=1}^\infty -\frac{d}{dp}(1-p)^x = -\frac{d}{dp} \sum_{x=1}^\infty (1-p)^x  = -\frac{d}{dp} \frac{1-p}{p} = \frac{d}{dp} (1 - \frac{1}{p}) = \frac{1}{p^2}\] via chain rule and the definition of a power series, we have
+        \[\E[X] = p\frac{1}{p^2} = \frac{1}{p}\]
+        Then we use the expected value of X squared to find variance, 
+        \[\E[X^2] = \sum_{x=1}^\infty x^2f(x) = \sum_{x=1}^\infty x^2p(1-p)^{x-1} = p\sum_{x=1}^\infty x^2(1-p)^{x-1} = p\sum_{x=1}^\infty -\frac{d}{dp}k(1-p)^k\]
+        \[=-p\frac{d}{dp}\frac{1-p}{p}\sum_{x=1}^\infty k(1-p)^{k-1}p = -p\frac{d}{dp}\frac{1-p}{p}\E[X] = -p\frac{d}{dp}\frac{1-p}{p^2} = -p(\frac{-2}{p^3} + \frac{1}{p^2}) = \frac{2}{p^2} - \frac{1}{p} = \frac{2-p}{p^2}\]
+        Thus, 
+        \[\Var[X] = \E[X^2] - \E[X]^2 = \frac{2-p}{p^2} - \frac{1}{p^2} = \frac{1-p}{p^2}\]
+        \item We use the definition of a power series to get
+        \[M_x(t) = \sum_{x=1}^\infty e^{tx}p(1-p)^{x-1} = pe^t\sum_{x=1}^\infty e^{t(x-1)}(1-p)^{x-1} = pe^t\sum_{x=1}^\infty (e^t(1-p))^{x-1} = \frac{pe^t}{1 - e^t(1-p)}\]
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    RT 2.6.16. Find $\E[X]$ and $\Var(X)$ for a random variable $X$ with pdf $f(x) = \frac{1}{2}e^{-|x|}, -\infty < x < \infty$. Also find the mgf of $X$.\\
+    
+    \textbf{Solution} 
+    
+    \[\E[X] = \int_{-\infty}^{\infty} \frac{1}{2}xe^{-|x|}dx = \frac{1}{2}\int_{-\infty}^{\infty} xe^{-|x|}dx = \frac{1}{2}\int_{0}^{\infty} xe^{-x}dx + \frac{1}{2}\int_{0}^{\infty} -xe^{-x}dx = 0.\] By symmetry, we get $\E[X] = 0$. We can calculate $\E[X^2]$ using L'Hospital's Rule to yield:
+    \[\E[X^2] = \int_{-\infty}^{\infty} \frac{1}{2}x^2e^{-|x|}dx = \int_{0}^{\infty} x^2e^{-x}dx = \left[-x^2e^{-x}\right]_0^{\infty} - 2\int_0^\infty xe^{-x}dx = \left[-x^2e^{-x} - 2xe^{-x} - 2e^{-x}\right]_0^{\infty} = 2.\]
+    Thus, $\Var[X] = \E[X^2] - \E[X]^2 = 2 - 0^2 = 2$. Then, the mgf of $X$ is 
+    \[M_x(t) = \int_{-\infty}^{\infty} \frac{1}{2}e^{tx}e^{-|x|}dx = \frac{1}{2}\int_{-\infty}^0 e^{(t+1)x}dx + \frac{1}{2}\int_{0}^\infty e^{(t-1)x}dx = \frac{1}{2}\int_{0}^\infty e^{-x(t+1)}dx + e^{x(t-1)}dx \]
+    \[=  \frac{1}{2}\left[\dfrac{\mathrm{e}^{\left(t-1\right)x}}{t-1} - \dfrac{\mathrm{e}^{\left(-t-1\right)x}}{t+1}\right]_0^\infty =
+    \frac{1}{2}\left[\dfrac{\mathrm{e}^{\left(t-1\right)x}}{t-1}\right]_0^\infty - \frac{1}{2}\left[\dfrac{\mathrm{e}^{\left(-t-1\right)x}}{t+1}\right]_0^\infty = \frac{1}{2 - 2t} + \frac{1}{2 + 2t} = \frac{1}{1 - t^2}
+    \]
+    
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Problem 4.15. A large parabolic antenna is designed against wind load. During a wind storm, the maximum wind-induced pressure on the antenna, $P$, is computed as \[P = \frac{1}{2}CRV^2\]
+    where $C$ = drag coefficient; $R$ = air mass density in slugs/ft${^3}$; $V$ = maximum wind speed in ft/sec; and $P$ = pressure in lb/ft${^2}$. $C, R,$ and $V$ are statistically independent lognormal variates with the following respective means and c.o.v.'s:
+    \[\mu_C = 1.80, \hspace{35pt} \delta_C = 0.20\]
+    \[\mu_R = 2.3 * 10^{-3}, \hspace{10pt} \delta_R = 0.10\]
+    \[\mu_V = 120, \hspace{37pt} \delta_V = 0.45\]
+    \begin{enumerate}[label=(\alph*)]
+        \item Determine the probability distribution of the maximum wind pressure $P$ and evaluate its parameters. 
+        
+        \item What is the probability that the maximum wind pressure will exceed $30$ lb/ft${^2}$?
+        
+        \item The actual wind resistance capacity of the antenna is also a lognormal random variable with a mean of $90$ lb/ft${^2}$ and a c.o.v. of $0.15$. Failure in the antenna will occur whenever the maximum applied wind pressure exceeds its wind resistance capacity. During a wind storm, what is the probability of failure of the antenna?
+        
+        \item If the occurances of wind storms in $(c)$ constitute a Poisson process with a mean occurance rate of once every $5$ years, what is the probability of failure of the antenna in $25$ years?
+        
+        \item Suppose five antennas were built and installed in a given region. What is the probability that at least two of the five antennas will not fail in $25$ years? Assume that failures between antennas are statistically independent.
+        
+    \end{enumerate}
+    
+    \textbf{Solution}
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item First, we calculate the mean pressure given by:
+        \[\]
+        \item
+    \end{enumerate}
+\end{homeworkProblem}
+
+
+\end{document}
