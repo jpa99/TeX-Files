@@ -9,10 +9,8 @@ Math paper introducing p-adic numbers and proving well-known theorems in the met
   * [See Publication](https://arxiv.org/abs/1710.08835)
 ### Locational Optimization
 Research report describing model for optimization of light fixture placement for maximizing uniformity of light distribution
-  * [See Publication](https://arxiv.org/abs/1709.06944)
 ### Algorithmic Visualiation
 Paper describing implementation of Prim's Algorithm and visualization of stages of greedy approach to finding MST
-  * [See Publication](https://arxiv.org/abs/1709.06944)
 ### COMP 140
 Problem set solutions for introductory computer science class
 ### STAT 310
